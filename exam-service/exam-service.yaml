@@ -1,0 +1,85 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: exam-service
+  description: A service to process PDFs against certain models and return a link to a visual editor.
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/calls: component:doc-reader
+spec:
+  type: service
+  lifecycle: production
+  system: dev
+  owner: group:default/EXAM
+  dependsOn:
+    - component:default/doc-reader
+  providesApis: [exam-api]
+  consumesApis: [ml-api, pdf-ocr-api]
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: exam-api
+spec:
+  type: openapi
+  lifecycle: production
+  owner: group:default/EXAM
+  system: ml
+  definition: |
+    openapi: 3.0.0
+    info:
+      version: '1.0.0'
+      title: 'EXAM PDF Model Processing Service'
+      description: 'A service to process PDFs against certain models and return a link to a visual editor.'
+
+    servers:
+      - url: 'https://api.pdfmodelservice.com'
+
+    paths:
+      /process-pdf:
+        post:
+          summary: 'Process a PDF with a specified model'
+          requestBody:
+            required: true
+            content:
+              multipart/form-data:
+                schema:
+                  type: object
+                  properties:
+                    pdf:
+                      type: string
+                      format: binary
+                      description: 'The PDF file to be processed.'
+                    modelId:
+                      type: string
+                      description: 'The ID of the model to run the PDF against.'
+                  required:
+                    - pdf
+                    - modelId
+          responses:
+            '200':
+              description: 'Successfully processed the PDF and returns a link to the visual editor.'
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      editorLink:
+                        type: string
+                        format: uri
+                        description: 'The link to the visual editor with the processed PDF.'
+            '400':
+              description: 'Bad Request. Invalid input or missing file.'
+            '500':
+              description: 'Internal Server Error.'
+
+    components:
+      securitySchemes:
+        ApiKeyAuth:
+          type: apiKey
+          in: header
+          name: X-API-KEY
+
+    security:
+      - ApiKeyAuth: []
+
