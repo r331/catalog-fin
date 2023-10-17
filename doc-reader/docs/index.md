@@ -1,50 +1,37 @@
-# PDF to OCR Service
+# PDF and OCR Display Website
 
-Convert your PDF files into OCR JSON data with ease.
+Welcome to the **PDF and OCR Display Website**. Our platform allows you to submit a link to a PDF file and its corresponding OCR data to view them simultaneously.
 
-## Overview
+## Features
 
-This service provides an easy-to-use API that takes in a PDF file and returns the OCR information in a structured JSON format. Extracted data is organized by page and content type, ensuring efficient data processing for your applications.
+- **PDF Viewer**: Directly view the contents of your PDF from the provided link.
+- **OCR Data Display**: View the extracted entities
 
-## Endpoints
+## Usage
 
-### POST /upload
+### Step 1: Access the Website
 
-Upload a PDF file and get the corresponding OCR data.
+Navigate to [doc reader](https://ocr-monster.com).
 
-**Request Body:**
+### Step 2: Submit Your PDF Link
 
-- Content type: `application/pdf`
+1. Find the `Enter PDF link` input box on the homepage.
+2. Paste your direct PDF link into the input box.
 
-**Response:**
+> **Note**: Ensure the link directly points to a `.pdf` file for accurate rendering.
 
-- 200 OK: Successful OCR conversion, returns OCR data in JSON format.
-- 400 Bad Request: Typically because of an invalid file format.
-- 500 Internal Server Error: An error occurred during processing.
+### Step 3: Provide the OCR Data
 
-## Response Structure
+1. Below the PDF link input box, find the `Enter OCR Data` textarea.
+2. Paste or type in the extracted text (OCR data) from the PDF.
 
-OCR Data is organized by pages. Each page has its content which can be of type `text` or `image`. For `text` type, the corresponding OCR'ed text is provided.
+### Step 4: View Together
 
-```json
-{
-  "pages": [
-    {
-      "number": 1,
-      "content": [
-        {
-          "type": "text",
-          "position": {
-            "x": 10,
-            "y": 20,
-            "width": 100,
-            "height": 50
-          },
-          "text": "Sample OCR text here"
-        }
-        // ... other content items
-      ]
-    }
-    // ... other pages
-  ]
-}
+Click on the `Display` button. The website will now show the PDF and its corresponding OCR data side by side or in your chosen layout.
+
+## Benefits
+
+- **Efficiency**: No need to switch between various apps to view the PDF and its extracted text.
+- **Accessibility**: Makes PDF contents more accessible to users and search engines.
+- **Simplicity**: Streamlined process makes it easy for anyone to use.
+
